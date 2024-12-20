@@ -1,0 +1,72 @@
+[
+    {
+      "id": 1,
+      "nombre": "Silla de Oficina Ergonómica",
+      "imagen": "./img/producto-1.webp",
+      "precio": "130.299",
+      "stock": 45
+    },
+    {
+        "id": 2,
+        "nombre": "Mesa de Oficina Minimalista",
+        "imagen": "./img/producto-2.png",
+        "precio": "180.000",
+        "stock": 50
+    },
+    {
+        "id": 3,
+        "nombre": "Silla de Escritorio Ajustable",
+        "imagen": "./img/producto-3.png",
+        "precio": "85.000",
+        "stock": 80
+    },
+    {
+      "id": 4,
+      "nombre": "Sillón de Terciopelo",
+      "imagen": "./img/producto-4.jpg",
+      "precio": "220.000",
+      "stock": 25
+    },
+    {
+      "id": 5,
+      "nombre": "Silla Plegable de Exterior",
+      "imagen": "./img/producto-5.png",
+      "precio": "48.000",
+      "stock": 150
+    },
+    {
+      "id": 6,
+      "nombre": "Mueble de TV de Madera",
+      "imagen": "./img/producto-6.png",
+      "precio": "190.00",
+      "stock": 45
+    },
+    {
+      "id": 7,
+      "nombre": "Mesa de Comedor Redonda",
+      "imagen": "./img/producto-7.png",
+      "precio": "159.999",
+      "stock": 35
+    },
+    {
+      "id": 8,
+      "nombre": "Mesa de Centro de Vidrio",
+      "imagen": "./img/producto-8.png",
+      "precio": "130.000",
+      "stock": 60
+    },
+    {
+      "id": 9,
+      "nombre": "Silla de Jardín de Acero",
+      "imagen": "./img/producto-9.png",
+      "precio": "46.000",
+      "stock": 20
+    },
+    {
+      "id": 10,
+      "nombre": "Silla Tapizada de Lujo",
+      "imagen": "./img/producto-10.webp",
+      "precio": "220.000",
+      "stock": 60
+    }
+  ]

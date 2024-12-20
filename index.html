@@ -3,43 +3,83 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <link rel="stylesheet" href="style.css">
+   
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    <script src="script.js"></script>
+    
     <title>Ecommerce-Curso</title>
 </head>
 <body>
-    <div class="container">
         <header>
-            <h1><b>T</b>odo Muebles</h1>
-            <div class="search-user-cart-container">
-                <div class="search">
-                    <i class="fa-solid fa-magnifying-glass"></i>
-                    <input type="text" placeholder="Buscar...">
+            <div class="header-content container-view">
+                <img src="logo (2).png" alt="Logo">
+                <nav>
+                    <li>
+                        <ul>
+                            <a href="#home"><span>INICIO</span></a>
+                        </ul>
+                        <ul>
+                            <a href="#productos"><span>PRODUCTOS</span></a>
+                        </ul>
+                        <ul>
+                            <a href="#reseñas"><span>RESEÑAS</span></a>
+                        </ul>
+                        <ul>
+                            <a href="#contacto"><span>CONTACTO</span></a>
+                        </ul>
+                    </li>
+                </nav>
+                <div class="search-user-cart-container">
+                    <div class="search">
+                        <input type="text" placeholder="Buscar..." id="inputSearch">
+                    </div>
+                    <i class="fa-solid fa-magnifying-glass" id="iconSearch"></i>
+                    <!--<i class="fa-solid fa-user"></i>-->
+                    <div class="cart-container">
+                        <i class="fa-solid fa-cart-shopping"></i>
+                        <div class="count-carrito" id="countCarrito"></div>
+                    </div>
                 </div>
-                <i class="fa-solid fa-user"></i>
-                <i class="fa-solid fa-cart-shopping"></i>
             </div>
         </header>
-        <nav>
-            <li>
-                <ul>
-                    <a href="#home">INICIO</a>
-                </ul>
-                <ul>
-                    <a href="#productos">PRODUCTOS</a>
-                </ul>
-                <ul>
-                    <a href="#reseñas">RESEÑAS</a>
-                </ul>
-                <ul>
-                    <a href="#contacto">CONTACTO</a>
-                </ul>
-            </li>
-        </nav>
         <main>
             <!--HOME-->
             <section class="home" id="home">
-                <img src="./portada.jpg" alt="muebles portada">
+                <!-- Carousel -->
+            <div id="demo" class="carousel slide" data-bs-ride="carousel" data-bs-interval="2500" data-bs-pause="hover">
+
+                <!-- Indicators/dots -->
+                <div class="carousel-indicators">
+                <button type="button" data-bs-target="#demo" data-bs-slide-to="0" class="active"></button>
+                <button type="button" data-bs-target="#demo" data-bs-slide-to="1"></button>
+                <button type="button" data-bs-target="#demo" data-bs-slide-to="2"></button>
+                </div>
+                
+                <!-- The slideshow/carousel -->
+                <div class="carousel-inner">
+                <div class="carousel-item active">
+                    <img src="1.jpg" alt="Los Angeles" class="d-block">
+                </div>
+                <div class="carousel-item">
+                    <img src="2.jpg" alt="Chicago" class="d-block">
+                </div>
+                <div class="carousel-item">
+                    <img src="3.jpg" alt="New York" class="d-block">
+                </div>
+                </div>
+                
+                <!-- Left and right controls/icons -->
+                <button class="carousel-control-prev" type="button" data-bs-target="#demo" data-bs-slide="prev">
+                <span class="carousel-control-prev-icon"></span>
+                </button>
+                <button class="carousel-control-next" type="button" data-bs-target="#demo" data-bs-slide="next">
+                <span class="carousel-control-next-icon"></span>
+                </button>
+            </div>
             </section>
             <!--PRODUCTOS-->
             <section class="section-productos" id="productos">
@@ -47,55 +87,8 @@
                     <hr>
                     <h2>Nuestros Productos</h2>
                 </div>
-                <div class="productos-container">
-                    <div class="producto-card">
-                        <div>
-                            <img src="mueble.webp" alt="mueble">
-                        </div>
-                        <h4>MESA RACK PARA TV MODELO PARAISO LAQUEADO POLIURETANICO SEMI MATE</h4>
-                        <span>$340.000</span>
-                        <button><span>AGREGAR AL CARRITO</span></button>
-                    </div>
-                    <div class="producto-card">
-                        <div>
-                            <img src="silla tapizada.webp" alt="silla tapizada">
-                        </div>
-                        <h4>Sillón Tapizado con Apoyabrazos Barcelona</h4>
-                        <span>$340.000</span>
-                        <button><span>AGREGAR AL CARRITO</span></button>
-                    </div>
-                    <div class="producto-card">
-                        <div>
-                            <img src="sillon.jpg" alt="mueble">
-                        </div>
-                        <h4>Sillón Circular Individual – Minnesota Chico</h4>
-                        <span>$785.743</span>
-                        <button><span>AGREGAR AL CARRITO</span></button>
-                    </div>
-                    <div class="producto-card">
-                        <div>
-                            <img src="banqueta.webp" alt="banqueta">
-                        </div>
-                        <h4>Banqueta alta tapizada – Madrid</h4>
-                        <span>$248.318</span>
-                        <button><span>AGREGAR AL CARRITO</span></button>
-                    </div>
-                    <div class="producto-card">
-                        <div>
-                            <img src="banqueta.webp" alt="banqueta">
-                        </div>
-                        <h4>Banqueta alta tapizada – Madrid</h4>
-                        <span>$248.318</span>
-                        <button><span>AGREGAR AL CARRITO</span></button>
-                    </div>
-                    <div class="producto-card">
-                        <div>
-                            <img src="banqueta.webp" alt="banqueta">
-                        </div>
-                        <h4>Banqueta alta tapizada – Madrid</h4>
-                        <span>$248.318</span>
-                        <button><span>AGREGAR AL CARRITO</span></button>
-                    </div>
+                <div id="productosContainer" class="productos-container">
+                    
                 </div>
             </section>
             <!--RESEÑAS-->
@@ -166,6 +159,7 @@
                 </div>
             </section>
         </main>
-    </div>
+    </div> 
+ 
 </body>
 </html>
