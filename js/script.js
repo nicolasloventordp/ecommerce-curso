@@ -23,6 +23,7 @@ $(document).ready( () => {
     $("#iconSearch").on( "click", function() {
         $('.search').addClass('show-search-input');
       });
+
 });
 
 function renderCardsProductos(){
@@ -34,7 +35,7 @@ function renderCardsProductos(){
             let html = '';
             productos.forEach(producto => {
                 html += 
-                    `<div class="producto-card">
+                    `<div class="producto-card" onclick=mostrarDetalleProducto('${producto.id}')>
                         <div>
                             <img src="${producto.imagen}" alt="${producto.nombre}">
                         </div>
@@ -91,6 +92,17 @@ function agregarProducto(id=null){
             console.log(err);
         }) 
     });
+}
+
+function mostrarDetalleProducto(id=null){
+    if(!id) return;
+    fetch('./productos.json')
+    .then((response) => { 
+        response.json().then((productos) => {
+            let producto = productos.find((p)=> p.id == id);
+            console.log("detalle de producto: ",producto);
+            });
+        });
 }
 
 function renderCountCarrito(){
