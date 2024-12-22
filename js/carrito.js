@@ -24,7 +24,7 @@ function renderProductosEnCarrito(){
                         <button class="btn-aumentar" onclick="incrementar('${producto.id}')">
                             <span>+</span>
                         </button>
-                        <span class="precio">Precio: $${parseFloat(producto.cantidad * producto.precio).toFixed(2)}</span>
+                        <span class="precio">Precio: $${parseFloat(producto.cantidad * producto.precio).toFixed(3)}</span>
                     </div>
                 </div>
                 <i class="fa-solid fa-trash" onclick="quitarProducto('${producto.id}')"></i>
@@ -32,7 +32,7 @@ function renderProductosEnCarrito(){
     });
 
     if(carrito && carrito.length > 0){
-        html += `<span> Precio Total: $${parseFloat(precioTotal).toFixed(2)}</span>`;
+        html += `<span> Precio Total: $${parseFloat(precioTotal).toFixed(3)}</span>`;
         $('.carro-productos').html(html);
     }else{
         $('.carro-productos').hide();
