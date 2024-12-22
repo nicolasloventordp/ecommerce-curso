@@ -22,7 +22,11 @@ $(document).ready( () => {
 
     $("#iconSearch").on( "click", function() {
         $('.search').addClass('show-search-input');
-      });
+    });
+
+    emailjs.init({
+		publicKey: "QmH-HASr6BtPvF05X",
+	});
 
 });
 
@@ -115,4 +119,57 @@ function renderCountCarrito(){
         count += producto.cantidad;
     }
     return $('#countCarrito').html(count);      
+}
+
+function enviarEmail(event){
+	event.preventDefault();
+	const serviceID = "service_wlegu8g";
+	const templateID = "template_3ucqt7l";
+	const templateParams = {
+		from_name: document.getElementById('from_name').value,
+		email_id: document.getElementById('email_id').value,
+		message: document.getElementById('message').value
+	};
+	
+	if(validarFormulario(templateParams)){
+		//document.getElementById('btn-form').style.display = 'none';
+		//document.getElementById('btn-loading').style.display = 'block';
+		emailjs.send(serviceID,templateID,templateParams).then(
+			() => {
+				$('.msj-success').show();
+			},
+			(err) => {
+				console.log(err);
+			} 
+		)
+	};
+	
+}
+
+function validarFormulario(params){
+	Object.keys(params).forEach(function(key) {
+		document.getElementById(key+'-error').style.display = "none";
+	});
+	let error = 1;
+	Object.keys(params).forEach(function(key) {
+		if(params[key] == ""){
+			document.getElementById(key+'-error').innerHTML = "* El campo es requerido";
+			document.getElementById(key+'-error').style.display = "block";
+			error = 0;
+		}
+		if(params[key] != "" && key == 'email_id'){
+			if(!validateEmail(params[key])){
+				document.getElementById(key+'-error').innerHTML = "* El email es incorrecto";
+				document.getElementById(key+'-error').style.display = "block";
+				error = 0;
+			}
+				
+		}
+	});
+	return error;
+}
+
+function validateEmail(email) {
+	var re = /\S+@\S+\.\S+/;
+	return re.test(email);
 }
