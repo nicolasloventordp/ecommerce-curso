@@ -1,18 +1,24 @@
-$(document).ready( () => {
-    renderCountCarrito();
+window.addEventListener('load', () => {
     renderProductosEnCarrito();
 });
 
 function renderProductosEnCarrito(){
+    let divCarroProductos = document.querySelector('.carro-productos');
+    let msjCarroVacio = document.querySelector('.carro-vacio');
     let carrito = JSON.parse(localStorage.getItem('carrito'));
-    if(!carrito) return false;
+    if(!carrito || carrito.length == 0){
+        divCarroProductos.style.display = 'none';
+        msjCarroVacio.style.display = 'block';
+        return renderCountCarrito();
+    }
+
     let html = '';
     let precioTotal = 0;
     carrito.forEach(producto => {
         precioTotal += producto.cantidad * producto.precio;
         html += 
             `<div class="card">
-                <img src="${producto.imagen}" width="60" height="60"/>
+                <img src="./img/producto-${producto.id}.png" width="60" height="60"/>
                 <div>
                     <span class="title">${producto.nombre}</span>
                     <div class="cantidad">
@@ -31,15 +37,9 @@ function renderProductosEnCarrito(){
             </div>`;
     });
 
-    if(carrito && carrito.length > 0){
-        html += `<span> Precio Total: $${parseFloat(precioTotal).toFixed(3)}</span>`;
-        $('.carro-productos').html(html);
-    }else{
-        $('.carro-productos').hide();
-        $('.carro-vacio').show();
-    }
-   
-    return renderCountCarrito();
+    html += `<span> Precio Total: $${parseFloat(precioTotal).toFixed(3)}</span>`;
+    divCarroProductos.innerHTML = html;
+    return renderCountCarrito(); 
 }
 
 function quitarProducto(id=null){
@@ -54,9 +54,11 @@ function quitarProducto(id=null){
 function renderCountCarrito(){
     let carrito = JSON.parse(localStorage.getItem('carrito'));
     let count = 0;
+    let msjCarroVacio = document.querySelector('.carro-vacio');
+    let countCarrito = document.querySelector('#countCarrito');
     if(!carrito){
-        $('.carro-vacio').show();
-        return $('#countCarrito').html(count);
+        msjCarroVacio.style.display = 'block';
+        return countCarrito.innerHTML = count; 
     }
     for(let producto of carrito){
         count += producto.cantidad;
@@ -65,8 +67,8 @@ function renderCountCarrito(){
 }
 
 function incrementar(id){
-    let cantidad = parseInt($('#cantidad-'+id).val());
-    $('#cantidad-'+id).val(parseInt(cantidad) + 1);
+    let inputCantidad = document.querySelector('#cantidad-'+id);
+    inputCantidad.value = parseInt(inputCantidad.value) + 1;
     let carrito = JSON.parse(localStorage.getItem('carrito'));
     carrito = carrito.map( (p) =>{
         if(p.id == id){
@@ -80,9 +82,9 @@ function incrementar(id){
 }
 
 function decrementar(id){
-    let cantidad = parseInt($('#cantidad-'+id).val());
-    if(cantidad == 1) return;
-    $('#cantidad-'+id).val(parseInt(cantidad) - 1);
+    let inputCantidad = document.querySelector('#cantidad-'+id);
+    if(inputCantidad.value == 1) return;
+    inputCantidad.value = parseInt(inputCantidad.value) - 1;
     let carrito = JSON.parse(localStorage.getItem('carrito'));
     carrito = carrito.map( (p) =>{
         if(p.id == id){

@@ -1,28 +1,29 @@
-$(document).ready( () => {
+window.addEventListener('load', () => {
 
     renderCardsProductos();
     renderCountCarrito();
 
     window.addEventListener('scroll', function (e) {
+        let header = this.document.querySelector('header');
+        let logoHeader = this.document.querySelector('.logo-header');
         const heroOpas = this.scrollY / 2000;
         if(this.scrollY < 80){
-            $('header').css('background-color',`rgba(255, 255, 255)`); 
-            $('header').css('height',`110px`);
-            $('header img').css('height',`auto`);
-            $('header img').css('width',`110px`);
-           
+            //header.style.backgroundColor = 'rgba(255, 255, 255)';
+            header.style.height = '110px'; 
+            logoHeader.style.height = 'auto';
+            logoHeader.style.width = '110px';
         }else {
-            $('header').css('background-color',`rgba(255, 255, 255,${heroOpas})`);
-            $('header').css('height',`80px`);
-            $('header img').css('height',`60px`);
-            $('header img').css('width',`90px`);
+            //header.style.backgroundColor = `rgba(255, 255, 255,${heroOpas})`;
+            header.style.height = '80px'; 
+            logoHeader.style.height = '60px';
+            logoHeader.style.width = '90px';
         }
            
     });
 
-    $("#iconSearch").on( "click", function() {
-        $('.search').addClass('show-search-input');
-    });
+    document.querySelector('#iconSearch').addEventListener("click", () => {
+        document.querySelector('.search').classList.add('show-search-input');
+    })
 
     emailjs.init({
 		publicKey: "QmH-HASr6BtPvF05X",
@@ -36,18 +37,19 @@ function renderCardsProductos(){
         response.json().then((productos) => {
             //listado de productos disponibles 
             console.log('productos disponibles: ',productos);
+            let productosContainer = document.querySelector('#productosContainer');
             let html = '';
             productos.forEach(producto => {
                 html += 
-                    `<div class="producto-card" onclick=mostrarDetalleProducto('${producto.id}')>
+                    `<div class="producto-card"  onclick=mostrarDetalleProducto('${producto.id}')>
                         <div>
                             <img src="${producto.imagen}" alt="${producto.nombre}">
                         </div>
                         <h4>${producto.nombre}</h4>
                         <span>$${producto.precio}</span>
-                        <button><span onclick="agregarProducto(${producto.id})">AGREGAR AL CARRITO</span></button>
+                        <button><span onclick="agregarProducto(event)" data-id=${producto.id} data-nombre='${producto.nombre}' data-precio=${producto.precio}>AGREGAR AL CARRITO</span></button>
                     </div>`;
-                $('#productosContainer').html(html);
+                productosContainer.innerHTML = html;
             });
         }).catch((err) => {
             console.log(err);
@@ -55,47 +57,36 @@ function renderCardsProductos(){
     });
 }
 
-function agregarProducto(id=null){
-    if(!id) return;
-    fetch('./productos.json')
-    .then((response) => { 
-        response.json().then((productos) => {
-            let productoSeleccionado = productos.find((p)=> p.id == id);
-            let carrito = JSON.parse(localStorage.getItem('carrito'));
-            if(!carrito){
-                //si el carrito esta vacio agrego directamente el producto seleccionado
-                carrito = [];
-                productoSeleccionado.cantidad = 1;
-                carrito.push(productoSeleccionado);
-                localStorage.setItem('carrito',JSON.stringify(carrito));
-            }else{
-                //si el carrito esta creado verifico si el producto ya está agregado
-                let productoEnCarrito = carrito.find(p => p.id == productoSeleccionado.id);
-                if(productoEnCarrito){
-                    carrito = carrito.map( (p) =>{
-                        if(p.id == productoSeleccionado.id){
-                            if(p.cantidad){
-                                p.cantidad = p.cantidad + 1;
-                            }else{
-                                p.cantidad = 1;
-                            }
-                        }
+function agregarProducto(event){
+    var producto = {
+        id: event.target.getAttribute('data-id'),
+        nombre: event.target.getAttribute('data-nombre'),
+        precio: event.target.getAttribute('data-precio'),
+        cantidad: 1
+    };
+    let carrito = JSON.parse(localStorage.getItem('carrito'));
+    if(!carrito){
+        //si el carrito esta vacio agrego directamente el producto seleccionado
+        carrito = [];
+        carrito.push(producto);
+        localStorage.setItem('carrito',JSON.stringify(carrito));
+    }else{
+        //si el carrito esta creado verifico si el producto ya está agregado
+        let productoEnCarrito = carrito.find(p => p.id == producto.id);
+        if(productoEnCarrito){
+            carrito = carrito.map( (p) =>{
+                        if(p.id == producto.id)
+                            p.cantidad = p.cantidad + 1;
                         return p;
-                            
                     });
-                    localStorage.setItem('carrito',JSON.stringify(carrito));
-                }else{
-                    //agrego producto a carrito
-                    productoSeleccionado.cantidad = 1;
-                    carrito.push(productoSeleccionado);
-                    localStorage.setItem('carrito',JSON.stringify(carrito));
-                }
-            }
-            renderCountCarrito();
-        }).catch((err) => {
-            console.log(err);
-        }) 
-    });
+            localStorage.setItem('carrito',JSON.stringify(carrito));
+        }else{
+            //agrego producto a carrito
+            carrito.push(producto);
+            localStorage.setItem('carrito',JSON.stringify(carrito));
+        }
+    }
+    return renderCountCarrito();
 }
 
 function mostrarDetalleProducto(id=null){
@@ -110,15 +101,15 @@ function mostrarDetalleProducto(id=null){
 }
 
 function renderCountCarrito(){
+    let countCarrito = document.querySelector('#countCarrito');
     let carrito = JSON.parse(localStorage.getItem('carrito'));
     let count = 0;
-    if(!carrito){
-        return $('#countCarrito').html(count);
+    if(carrito && carrito.length > 0){
+        for(let producto of carrito){
+            count += producto.cantidad;
+        }
     }
-    for(let producto of carrito){
-        count += producto.cantidad;
-    }
-    return $('#countCarrito').html(count);      
+    return countCarrito.innerHTML = count;    
 }
 
 function enviarEmail(event){
@@ -126,17 +117,15 @@ function enviarEmail(event){
 	const serviceID = "service_wlegu8g";
 	const templateID = "template_3ucqt7l";
 	const templateParams = {
-		from_name: document.getElementById('from_name').value,
-		email_id: document.getElementById('email_id').value,
-		message: document.getElementById('message').value
+		from_name: document.querySelector('#from_name').value,
+		email_id: document.querySelector('#email_id').value,
+		message: document.querySelector('#message').value
 	};
 	
 	if(validarFormulario(templateParams)){
-		//document.getElementById('btn-form').style.display = 'none';
-		//document.getElementById('btn-loading').style.display = 'block';
 		emailjs.send(serviceID,templateID,templateParams).then(
 			() => {
-				$('.msj-success').show();
+                document.querySelector('.msj-success').style.display = 'block';
 			},
 			(err) => {
 				console.log(err);
@@ -148,19 +137,19 @@ function enviarEmail(event){
 
 function validarFormulario(params){
 	Object.keys(params).forEach(function(key) {
-		document.getElementById(key+'-error').style.display = "none";
+		document.querySelector(`#${key}-error`).style.display = "none";
 	});
 	let error = 1;
 	Object.keys(params).forEach(function(key) {
 		if(params[key] == ""){
-			document.getElementById(key+'-error').innerHTML = "* El campo es requerido";
-			document.getElementById(key+'-error').style.display = "block";
+			document.querySelector(`#${key}-error`).innerHTML = "* El campo es requerido";
+			document.querySelector(`#${key}-error`).style.display = "block";
 			error = 0;
 		}
 		if(params[key] != "" && key == 'email_id'){
 			if(!validateEmail(params[key])){
-				document.getElementById(key+'-error').innerHTML = "* El email es incorrecto";
-				document.getElementById(key+'-error').style.display = "block";
+				document.querySelector(`#${key}-error`).innerHTML = "* El email es incorrecto";
+				document.querySelector(`#${key}-error`).style.display = "block";
 				error = 0;
 			}
 				
